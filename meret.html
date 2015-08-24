@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Meret</title>
+<link rel="stylesheet" type="text/css" href="css/meret.css">
+<script type="text/javascript" src ="js/jquery.js"></script>
+<script type="text/javascript" src ="js/exercises.js"></script>
+<script type="text/javascript" src ="js/meret.js"></script>
+</head>
+<body>
+<h1>Meret</h1>
+<p id="type_p">Type goes here.</p>
+<p id="text_p">Text goes here.</p>
+<p id="subject_p">Subject goes here.</p>
+<form id="input_form">
+  <input id="input_box" type="text" value="Type a regular expression here goes here" size="50">
+  <input id="submit_button" type="submit" value="Go!">
+</form>
+<p id="result_p"></p>
+<p id="hint_p">Blah</p>
+<p id="navigate"><a id="previous" href="#">Previous</a> | <a id="next" href="#">Next</a> | <a id="hint" href="#">Hint</a> | <a id="manual" href="#">Manual</a></p>
+<hr>
+<div id="manual_d">
+
+<h2>Manual</h2>
+<p>Derived from <a href="http://www.mashcat.info/orangeaurochs/regex.docx">Brief Introduction to Regular Expressions (docx)</a> from <a href="http://www.mashcat.info/2012-event/">Mashcat 2012</a>.</p>
+
+<h3>Literals</h3>
+<p class="indented">Characters as you type them. E.g. /i/ will look for a letter "i". /ii/ will look for two letter "i"s in a row. /Eldorado/ will look for the exact string "Eldorado", and /1234s/ will look for “1234s”.</p>
+
+<h3>Types of Character</h3>
+<p>There are a number of ways of looking for specific types of character:</p>
+<p class="indented"><strong>.</strong> looks for any single character. It could be a letter, number, punctuation or anything.</p>
+<p class="indented"><strong>[]</strong> looks for any one of the characters in square brackets, so <code>m[ae]rc</code> will match "marc" and "merc". You can also specify ranges, e.g. [a-z] will find any letter from "a" to "z", so <code>[a-d]ad</code> will match "aad", "bad", "cad", and "dad". Putting a ^ after the [ will look for any character that isn't in the square brackets: <code>u[^ks]marc</code> will not match "ukmarc" or "usmarc" but will match "unmarc".</p>
+<p class="indented"><strong>\d</strong> a digit, same as [0-9]. Like all the following, counts as one character although written as two.</p>
+<p class="indented"><strong>\D</strong> not a digit, same as [^0-9].</p>
+<p class="indented"><strong>\w</strong> alphanumeric, including underscore, same as [A-Za-z0-9_]</p>
+<p class="indented"><strong>\W</strong> non-alphanumeric, same as [^A-Za-z0-9_]</p>
+<p class="indented"><strong>\s</strong> whitespace characters, e.g. spaces, tabs</p>
+<p class="indented"><strong>\S</strong> non-whitespace characters</p>
+<p class="indented"><strong>\b</strong> word boundary: the beginning or end of words (i.e. strings of alphanumeric characters), or the beginning or end of strings.</p>
+<p class="indented"><strong>\</strong> is also used before a special character so you can search on it. E.g, searching on <code>.</code> will look for any character and will match ".", "d", or "5". To look for a full-stop, put \ in front: <code>\.</code>.</p>
+<h3>Starts and Ends</h3>
+<p class="indented"><strong>^</strong> matches the start of any string. So, in "marc must die" <code>^marc</code> will match "marc" but <code>^must</code> will match nothing.</p>
+<p class="indented"><strong>$</strong> matches the end of any string. So, in "marc must die" <code>die$</code> will match "die" but <code>must$</code> will match nothing.</p>
+<h3>Numbers of Characters</h3>
+<p class="indented"><strong>*</strong> matches the preceding element zero or more times, e.g. <code>catalogu*ing</code> will match "cataloging", "cataloguing", as well as "cataloguuing" and "cataloguuuuuuuuuuing".</p>
+<p class="indented"><strong>?</strong> matches the preceding element zero or one times, e.g. <code>catalogu?ing</code> will match "cataloging" and "cataloguing" but not "cataloguuing". See also ? below.</p>
+<p class="indented"><strong>+</strong> matches the preceding element one or more times, e.g. <code>catalogu+ing</code> will match "cataloguing", "cataloguuing", and "cataloguuuuuuuuuuing", but not "cataloging".</p>
+<p class="indented"><strong>{n}</strong> matches the preceding element exactly n times, e.g. <code>catalogu{10}ing</code> will match "cataloguuuuuuuuuuing" but not "cataloging", "cataloguing", or "cataloguuing".</p>
+<p class="indented"><strong>{m,n}</strong> matches the preceding element at least m times and no more than n times.</p>
+<p class="indented"><strong>?</strong> also has a special meaning to restrict matches of multiple characters, e.g. looking for <code>catalog.*ing</code> in "cataloguing is ace. I love cataloguing" will greedily find "cataloguing is ace. I love cataloguing" as the .* matches both "uing is ace. I love catalogu" and "u". Amending the regular expression to <code>catalog.*?ing</code> will find only "cataloguing".</p>
+
+<h3>Grouping</h3>
+<p class="indented"><strong>()</strong> groups characters together. This has a variety of uses. The group can be used a single character, e.g. <code>(meta)*</code> looks for the string "meta" zero or more times. It can also be used for capturing smaller parts of the expression for later use, e.g. <code>catalog(.*)</code> will match anything starting "catalog" but will also store what comes afterwards as $1.</p>
+<p class="indented"><strong>|</strong> [pipe] allows alternatives either side of it, e.g. <code>marc|rdf</code> will match "marc" or "rdf". Smaller alternatives can be matched with brackets, e.g. <code>(uk|us)marc</code> will match "ukmarc" or "usmarc" (and if there is a match will store "uk" or "us" as $1).</p>
+
+<h3>Regular Expressions in Javascript</h3>
+<p>To get matches, use <code>string.match(//)</code>. The regular expression goes between the forward slashes. Put a <code>g</code> after the second slash to search for all matches, rather than just the first one. Put an <code>i</code> after the second slash to do a case-insensitive search. <code>String.match</code> returns an array of matches, or null if it finds nothing.</p>
+<p class="code">var hits = “team”.match(/i/g);</p>
+<p>hits is null as there is no “i” in “team”.</p>
+<p class="code">var text = “Fox in socks in box on Knox”;<br>
+var hits = text.match(/\w*ox\b/g);</p>
+<p>hits is an array of three elements, all a series of words ending in “ox”: [“Fox”, “box”, “Knox”]. </p>
+<p>To search and replace within string, use string.replace(//, ””). The regular expression goes between the forward slashes. The g and i work in the same way. The string to replace matches with goes after the comma. You can insert subexpressions captured with round brackets by using $1 for the first, $2 for the second, and so on (see Grouping above and the example below). String.replace returns the string with replacements made:
+<p class="code">var text = “I love MARC. I think MARC is the future.”;<br>
+text = text.replace(/MARC/g, ”linked data”);</p>
+<p>text is now “I love linked data. I think linked data is the future.”</p>
+<p class="code">var text = “UKMARC is better than USMARC”;<br>
+text=text.replace(/(.*?MARC) is better than (.*?MARC)/gi, “$2 is better than $1”);</p>
+<p>Now, “USMARC is better than UKMARC”. Run the replacement again, and history is reset.</p>
+
+<h3>Examples</h3>
+<p>ISBN (from <a href="http://www.librarything.com/blogs/thingology/2007/04/">Thingology blog</a>)
+<code>([0-9]{9}[0-9X]|(978|979)[0-9]{10})</code></p>
+<p>UK Postcode (from <a href="http://en.wikipedia.org/wiki/UK_postcode">Wikipedia</a>)
+<code>(GIR 0AA|[A-PR-UWYZ]([0-9][0-9A-HJKPS-UW]?|[A-HK-Y][0-9][0-9ABEHMNPRV-Y]?) [0-9][ABD-HJLNP-UW-Z]{2})</code>
+</div>
+<hr>
+<p id="about">By Thomas Meehan <a href="https://twitter.com/orangeaurochs">@orangeaurochs</a>. Meret is a tortuous acronym for MarcEdit Regular Expression Tutorial. It is not in any way an official Marcedit thing. The site is of course under construction...</p>
+
+</body>
+</html>
