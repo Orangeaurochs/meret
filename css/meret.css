@@ -1,0 +1,56 @@
+  body {
+    font-family: Verdana, sans-serif;
+    background-color: #ffffff;
+    font-size: 12pt
+  }
+  h1 {
+    background-color: #990033;
+    font-family: #courier;
+    color: #ffffff;
+    width:70%;
+    padding:1em 1em 0.5em 1em;
+  }
+  
+  p.indented {
+    padding-left:1em;
+  }
+  p.code {
+    padding-left: 1em;
+    font-family:courier;
+  }
+  
+  code {
+    font-weight: bold;
+  }
+  
+  input {
+    font-family: courier;
+    font-size: 1.5em;
+    font-weight: bold;
+    border:0px;
+  }
+  
+  input#input_box {
+    background-color: #F5E6EB;
+    color: #000000;
+    padding-left:.75em;
+  }
+  
+  input#submit_button {
+    background-color: #990033;
+    color: #ffffff;
+  }
+  
+  #exercise_text {
+    font-weight: bold;
+  }
+  
+  #subject_p {
+    background-color: #eeeeee;
+    font-weight:bold;
+    font-family: courier;
+    padding-left:2em;
+  }
+  #about {
+    font-size: 8pt;
+  }
